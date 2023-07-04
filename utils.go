@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"fmt"
 	"log"
-	"math/rand"
 	"os"
 	"strings"
 	"time"
@@ -27,50 +26,6 @@ var (
 func init() {
 	os.MkdirAll("Results/"+today, 0777)
 }
-
-func ExtractCombo(combo string) (string, string) {
-	return strings.Split(combo, ":")[0], strings.Split(combo, ":")[1]
-}
-
-func ExtractLeftRight(main, left, right string) string {
-	return strings.Split((strings.Split(main, left)[1]), right)[0]
-}
-
-func ExtractStringIndex(main string, split string, index int) string {
-	return strings.Split(main, split)[index]
-}
-func Length(s string) int {
-	return len(s)
-}
-
-func RandomReturn() bool {
-	return random.Intn(10) > random.Intn(10)
-}
-
-func RandomItem(slice []string) string {
-	return slice[random.Intn(len(slice))]
-}
-
-func CheckString(main, character string) bool {
-	return strings.Contains(main, character)
-}
-
-func CheckSymbols(password string) bool {
-	return strings.ContainsAny(password, symbols)
-}
-
-func CheckUpper(password string) bool {
-	return strings.ContainsAny(password, uppercase)
-}
-
-func CheckLower(password string) bool {
-	return strings.ContainsAny(password, lowercase)
-}
-
-func CheckDigits(password string) bool {
-	return strings.ContainsAny(password, digits)
-}
-
 
 func GenFileName(name string) (*os.File, error) {
 	editedcombopath = fmt.Sprintf("%s/%s %s.txt", "Results/"+today, name, strings.ReplaceAll(time.Now().Format("15:04:05"), ":", "-"))
