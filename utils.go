@@ -15,10 +15,6 @@ import (
 var (
 	source                 = rand.NewSource(time.Now().UnixNano())
 	random                 = rand.New(source)
-	symbols         string = `"!@#$%^&*()-+?_=,<>/"`
-	uppercase       string = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-	lowercase       string = "abcdefghijklmnopqrstuvwxyz"
-	digits          string = "0123456789"
 	today           string = time.Now().Format("Mon Jan 2")
 	editedcombopath string
 )
