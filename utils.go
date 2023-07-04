@@ -8,6 +8,7 @@ import (
 	"os"
 	"strings"
 	"time"
+	"syscall"
 
 	"github.com/sqweek/dialog"
 )
@@ -116,4 +117,21 @@ func WriteFile(filepath string, dataSlice []string) {
 
 func WriteToFile(file *os.File, data string) {
 	file.WriteString(data + "\n")
+}
+
+func Title(title string) (int, error) {
+	var kernel32 = syscall.NewLazyDLL("kernel32.dll")
+	var procSetConsoleTitle = kernel32.NewProc("SetConsoleTitleW")
+
+	ptr, err := syscall.UTF16PtrFromString(title)
+	if err != nil {
+		return 0, err
+	}
+
+	_, _, err = procSetConsoleTitle.Call(uintptr(unsafe.Pointer(ptr)))
+	if err != nil && err.Error() != "The operation completed successfully." {
+		return 0, err
+	}
+
+	return 1, nil
 }
