@@ -70,19 +70,20 @@ func CheckDigits(password string) bool {
 	return strings.ContainsAny(password, digits)
 }
 
-func GenFileName(name string) string {
+
+func GenFileName(name string) (*os.File, error) {
 	editedcombopath = fmt.Sprintf("%s/%s %s.txt", "Results/"+today, name, strings.ReplaceAll(time.Now().Format("15:04:05"), ":", "-"))
 	_, err := os.Create(editedcombopath)
 	if err != nil {
-		log.Fatalln(err)
+		fmt.Println(err)
 	}
-	return editedcombopath
+	return os.Create(editedcombopath)
 }
 
 func DialogBox() string {
 	filepath, err := dialog.File().Title("Load File").Load()
 	if err != nil {
-		log.Fatal("There was an error while loading file. Try again")
+		fmt.Println("There was an error while loading file. Try again")
 	}
 	return filepath
 
@@ -106,15 +107,13 @@ func LoadFile() []string {
 }
 
 func WriteFile(filepath string, dataSlice []string) {
-	file, _ := os.Create(filepath)
+	file, _ := os.OpenFile(filepath, os.O_APPEND|os.O_WRONLY, 0666)
 	defer file.Close()
 	for _, data := range dataSlice {
 		file.WriteString(data + "\n")
 	}
 }
 
-func WriteToFile(filepath string, data string) {
-	file, _ := os.Create(filepath)
-	defer file.Close()
+func WriteToFile(file *os.File, data string) {
 	file.WriteString(data + "\n")
 }
